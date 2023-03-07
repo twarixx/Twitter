@@ -12,6 +12,11 @@ function App() {
     const {currentUser} = useContext(AuthContext);
     const queryClient = new QueryClient()
 
+    function detectMobile() {
+        return (Math.min(window.screen.width, window.screen.height) < 768);
+    }
+
+
     const LoggedIn = ({children}) => {
         if (!currentUser) {
             return <Navigate to="/login"/>;
@@ -63,6 +68,13 @@ function App() {
         }
     ]);
 
+    if (!detectMobile()) {
+        return (
+            <div className="flex justify-center items-center h-[100vh]">
+                <h1 className="text-5xl font-semibold">We are mobile only!</h1>
+            </div>
+        )
+    }
 
     return (
         <QueryClientProvider client={queryClient}>
