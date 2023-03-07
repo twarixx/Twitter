@@ -15,7 +15,7 @@ export const MainLayout = ({ children }) => {
         <div className="bg-gray-100 h-full">
             <div className="flex justify-between p-2">
                 <p>Hey, {currentUser.username}</p>
-                <p onClick={handleLogout}>Log out</p>
+                <p onClick={handleLogout}>Sign out</p>
             </div>
             <Outlet/>
         </div>
