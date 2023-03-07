@@ -52,7 +52,7 @@ function App() {
                     element: <LoginPage/>,
                 },
                 {
-                    path: "/register/:key",
+                    path: "/register",
                     element: <RegisterPage/>,
                 },
             ],
