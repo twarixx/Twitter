@@ -5,7 +5,16 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        twitter: {
+          primary: '#67e8f9',
+          secondary: '#0891b2',
+          text: '#e5e5e5',
+          text_secondary: '#57534e',
+        }
+      }
+    },
   },
   plugins: [],
 }

@@ -17,7 +17,7 @@ export const LoginPage = () => {
 
     return (
         <div className="flex justify-center items-center h-[100vh]">
-            <button onClick={handleLogin} className="bg-amber-500 px-4 py-2 rounded-md text-amber-50">Sign in as Admin</button>
+            <button onClick={handleLogin} className="bg-twitter-primary px-4 py-2 rounded-md text-twitter-text_secondary">Sign in as Admin</button>
         </div>
     )
 }

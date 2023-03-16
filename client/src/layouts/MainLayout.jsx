@@ -12,7 +12,7 @@ export const MainLayout = ({ children }) => {
     }
 
     return (
-        <div className="bg-gray-100 h-full">
+        <div className="bg-stone-800 text-twitter-text h-full">
             <div className="flex justify-between p-2">
                 <p>Hey, {currentUser.username}</p>
                 <p onClick={handleLogout}>Sign out</p>
