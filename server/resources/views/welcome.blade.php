@@ -12,9 +12,6 @@
 
 		@vite('resources/css/app.css')
 
-		@viteReactRefresh
-		@vite('resources/js/app.jsx')
-
 	</head>
 	<body>
 
