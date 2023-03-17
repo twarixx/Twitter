@@ -39,19 +39,24 @@ export const LoginPage = () => {
                 </div>
 
                 <form className="justify-center flex flex-col gap-4 items-center w-full text-twitter-text">
-                    <input onChange={handleChange} value={input.username} className="border-twitter-primary border outline-none w-full p-2 rounded bg-stone-700" name="username" type="text" placeholder="Username or Email"/>
-                    <input onChange={handleChange} value={input.password} className="border-twitter-primary border outline-none w-full p-2 rounded bg-stone-700" name="password" type="password" placeholder="Password"/>
+                    <input onChange={handleChange} value={input.username}
+                           className="border-twitter-primary border outline-none w-full p-2 rounded bg-stone-700"
+                           name="username" type="text" placeholder="Username or Email"/>
+                    <input onChange={handleChange} value={input.password}
+                           className="border-twitter-primary border outline-none w-full p-2 rounded bg-stone-700"
+                           name="password" type="password" placeholder="Password"/>
 
                     <div className="mt-6 w-full flex">
-                        <button onClick={handleLogin} className="bg-twitter-primary px-4 py-2 w-full h-12 rounded-md text-twitter-text_secondary">Sign in!</button>
+                        <button onClick={handleLogin}
+                                className="bg-twitter-primary px-4 py-2 w-full h-12 rounded-md text-twitter-text_secondary">Sign
+                            in!
+                        </button>
                     </div>
                 </form>
 
-                <div className="flex mt-0.5 w-full text-twitter-text text-sm">
-                    <div className="flex justify-between w-full">
-                        <p onClick={() => navigate("/register")}>Don't have an account?</p>
-                        <p onClick={() => navigate("/register")}>Sign up!</p>
-                    </div>
+                <div className="flex mt-0.5 w-full justify-between text-twitter-text text-sm">
+                    <p onClick={() => navigate("/register")}>Don't have an account?</p>
+                    <p onClick={() => navigate("/register")}>Sign up!</p>
                 </div>
             </div>
         </div>
