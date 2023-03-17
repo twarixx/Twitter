@@ -70,8 +70,9 @@ function App() {
 
     if (!detectMobile()) {
         return (
-            <div className="flex justify-center items-center h-[100vh]">
-                <h1 className="text-5xl text-twitter-text font-semibold">We are mobile only!</h1>
+            <div className="flex flex-col justify-center items-center h-[100vh]">
+                <img src="/images/logo.png" alt="Twiterr Logo"/>
+                <h1 className="text-3xl text-twitter-text font-semibold">We are mobile only!</h1>
             </div>
         )
     }
