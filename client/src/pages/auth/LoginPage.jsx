@@ -8,7 +8,18 @@ export const LoginPage = () => {
 
     const handleLogin = () => {
         const user = {
+            id: 1,
+            email: 'abc@abc.nl',
             username: 'Admin',
+            display_name: 'Admin User',
+            bio: 'I am the admin user',
+            avatar: null,
+            banner: null,
+            admin: true,
+            active: true,
+            deactivated_on: null,
+            created_at: 1610000000000,
+            last_updated: 3000,
         };
 
         login(user);
@@ -16,8 +27,11 @@ export const LoginPage = () => {
     }
 
     return (
-        <div className="flex justify-center items-center h-[100vh]">
-            <button onClick={handleLogin} className="bg-twitter-primary px-4 py-2 rounded-md text-twitter-text_secondary">Sign in as Admin</button>
+        <div className="flex flex-col justify-center items-center h-[100vh]">
+            <div className="flex flex-col bg-stone-800 twitterr-shadow h-[70%] w-[90%] rounded-xl p-6 justify-center items-center">
+                <img src="/images/logo.png" alt="Twiterr Logo"/>
+                <button onClick={handleLogin} className="bg-twitter-primary px-4 py-2 rounded-md text-twitter-text_secondary">Sign in as Admin</button>
+            </div>
         </div>
     )
 }

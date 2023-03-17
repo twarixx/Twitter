@@ -71,7 +71,7 @@ function App() {
     if (!detectMobile()) {
         return (
             <div className="flex justify-center items-center h-[100vh]">
-                <h1 className="text-5xl font-semibold">We are mobile only!</h1>
+                <h1 className="text-5xl text-twitter-text font-semibold">We are mobile only!</h1>
             </div>
         )
     }
