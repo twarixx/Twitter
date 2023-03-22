@@ -1,0 +1,65 @@
+LICENSE:
+Deltion2023|KXnHeJxzCncxiQ+pcUnNKcnMz1MwMjAyrjE0NzA0MTOwMAABAKrgCP4=
+
+JSON:
+[
+    {
+        "type": "user",
+        "success": true,
+        "code": 200,
+        "message": "Here is your user!",
+        "data": {
+            "id": 1,
+            "email": "abc@abc.nl",
+            "username": "Admin",
+            "display_name": "Admin User",
+            "bio": "lorem ipsum",
+            "profile_picture": "some/path/on/file/system.png",
+            "admin": true,
+            "active": true,
+            "deactived_on": null,
+            "created_on": 1580000000
+        }
+    },
+
+    {
+        "type": "post",
+        "success": true,
+        "code": 200,
+        "message": "Here is your post!",
+        "data": {
+            "id": 1,
+            "user_id": 1,
+            "post_id": null,
+            "message": "lorem ipsum",
+            "image": null,
+            "deleted": false,
+            "created_on": 1580000000
+        }
+    },
+
+    {
+        "type": "like",
+        "success": true,
+        "code": 200,
+        "message": "Here is your like!",
+        "data": {
+            "amount": 10,
+            "liked": true
+        }
+    },
+
+    {
+        "type": "relationship",
+        "success": true,
+        "code": 200,
+        "message": "Here is your relationship!",
+        "data": {
+            "following": true,
+            "blocked": false,
+            "is_blocked": false,
+            "is_following": true,
+            "followers": 15
+        }
+    }
+]
