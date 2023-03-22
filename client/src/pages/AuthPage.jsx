@@ -1,10 +1,10 @@
 import { useContext, useState } from "react";
-import { AuthContext } from "../../context/AuthContext.jsx";
+import { AuthContext } from "../context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
-import { getAccounts } from "../../data/accounts.jsx";
+import { getAccounts } from "../data/accounts.jsx";
 import { toaster } from "evergreen-ui";
 
-export const LoginPage = () => {
+export const AuthPage = () => {
   const [input, setInput] = useState({ username: "", password: "" });
 
   const { login } = useContext(AuthContext);
@@ -48,8 +48,8 @@ export const LoginPage = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center h-[100vh]">
-      <div className="flex flex-col bg-stone-800 twitterr-shadow h-[60%] w-[85%] rounded-xl p-6 items-center">
+    <div className="flex flex-col justify-center items-center h-[100vh] bg-[url('/images/background.jpg')] bg-center bg-cover">
+      <div className="flex flex-col bg-stone-800 bg-opacity-70 h-[60%] w-[85%] rounded-xl p-6 items-center">
         <div className="mt-7 mb-10">
           <img src="/images/logo.png" alt="Twiterr Logo" />
         </div>

@@ -8,8 +8,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { HomePage } from "./pages/HomePage.jsx";
-import { LoginPage } from "./pages/auth/LoginPage.jsx";
-import { RegisterPage } from "./pages/auth/RegisterPage.jsx";
+import { AuthPage } from "./pages/AuthPage.jsx";
 import { UnknownPage } from "./pages/UnknownPage.jsx";
 import { MainLayout } from "./layouts/MainLayout.jsx";
 
@@ -23,7 +22,7 @@ function App() {
 
   const LoggedIn = ({ children }) => {
     if (!currentUser) {
-      return <Navigate to="/login" />;
+      return <Navigate to="/auth" />;
     }
 
     return children;
@@ -61,12 +60,8 @@ function App() {
       ),
       children: [
         {
-          path: "/login",
-          element: <LoginPage />,
-        },
-        {
-          path: "/register",
-          element: <RegisterPage />,
+          path: "/auth",
+          element: <AuthPage />,
         },
       ],
     },
