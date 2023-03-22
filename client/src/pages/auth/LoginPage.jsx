@@ -21,6 +21,7 @@ export const LoginPage = () => {
       toaster.danger("Please fill all the fields!", {
         hasCloseButton: true,
         duration: 3,
+        id: "empty-fields",
       });
       return;
     }
@@ -32,6 +33,7 @@ export const LoginPage = () => {
       toaster.danger("Could not find this user!", {
         hasCloseButton: true,
         duration: 3,
+        id: "user-not-found",
       });
       return;
     }
@@ -40,6 +42,7 @@ export const LoginPage = () => {
     toaster.success("Successfully logged in!", {
       hasCloseButton: true,
       duration: 3,
+      id: "login-success",
     });
     navigate("/");
   };
