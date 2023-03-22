@@ -21,8 +21,8 @@ return new class extends Migration {
 			$table->boolean('admin')->default(false);
 			$table->boolean('active')->default(true);
 			$table->timestamp('deactivated_on')->nullable();
-			$table->timestamp('last_update_on');
-			$table->timestamp('created_on');
+			$table->timestamp('last_update_on')->nullable();
+			$table->timestamp('created_on')->useCurrent();
 
 		});
 
@@ -31,7 +31,7 @@ return new class extends Migration {
 			$table->id();
 			$table->unsignedBigInteger('user_id');
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-			$table->unsignedBigInteger('post_id')->nullable();  // if post is a reply
+			$table->unsignedBigInteger('post_id')->nullable(); // reply on post :}
 			$table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade')->nullOnDelete();
 			$table->text('message');
 			$table->string('image')->nullable();
@@ -58,7 +58,7 @@ return new class extends Migration {
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 			$table->unsignedBigInteger('target_user_id');
 			$table->foreign('target_user_id')->references('id')->on('users')->onDelete('cascade');
-			$table->enum('type', ['friend', 'block', 'follow']);
+			$table->enum('type', ['follow', 'block',]);
 			$table->timestamp('created_on');
 
 		});
