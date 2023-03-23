@@ -53,6 +53,8 @@ export const AuthPage = () => {
   };
 
   const register = (event) => {
+    event.preventDefault();
+
     if (
       name === "" ||
       password === "" ||
