@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import { HomePage } from "./pages/HomePage.jsx";
 import { AuthPage } from "./pages/AuthPage.jsx";
+import { ExplorePage } from "./pages/ExplorePage.jsx";
 import { UnknownPage } from "./pages/UnknownPage.jsx";
 import { MainLayout } from "./layouts/MainLayout.jsx";
 
@@ -48,6 +49,10 @@ function App() {
         {
           path: "/",
           element: <HomePage />,
+        },
+        {
+          path: "/explore",
+          element: <ExplorePage />,
         },
       ],
     },
