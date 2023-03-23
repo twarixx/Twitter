@@ -15,84 +15,74 @@ export const AuthPage = () => {
 
   const [variant, setVariant] = useState("register");
 
+  const { login: authLogin } = useContext(AuthContext);
+
   const toggleVariant = useCallback(() => {
     setVariant((prev) => (prev === "register" ? "login" : "register"));
   }, []);
 
-  const login = useCallback(
-    async (event) => {
-      event.preventDefault();
+  const login = (event) => {
+    event.preventDefault();
 
-      if (name === "" || password === "") {
-        toaster.danger("Please fill all the fields!", {
-          hasCloseButton: true,
-          duration: 3,
-          id: "empty-fields",
-        });
-        return;
-      }
-
-      const user = getAccounts().find(
-        (account) => account.username === input.username
-      );
-      if (!user) {
-        toaster.danger("Could not find this user!", {
-          hasCloseButton: true,
-          duration: 3,
-          id: "user-not-found",
-        });
-        return;
-      }
-
-      login(user);
-      toaster.success("Successfully logged in!", {
+    if (name === "" || password === "") {
+      toaster.danger("Please fill all the fields!", {
         hasCloseButton: true,
         duration: 3,
-        id: "login-success",
+        id: "empty-fields",
       });
-      navigate("/");
-    },
-    [password, name, navigate]
-  );
+      return;
+    }
 
-  const register = useCallback(
-    async (event) => {
-      event.preventDefault();
-
-      if (
-        name === "" ||
-        password === "" ||
-        email === "" ||
-        confirmPassword === ""
-      ) {
-        toaster.danger("Please fill all the fields!", {
-          hasCloseButton: true,
-          duration: 3,
-          id: "empty-fields",
-        });
-        return;
-      }
-
-      const user = getAccounts().find(
-        (account) => account.username === input.username
-      );
-      if (user) {
-        toaster.danger("This user already exists!", {
-          hasCloseButton: true,
-          duration: 3,
-          id: "user-already-exists",
-        });
-        return;
-      }
-
-      toaster.success("Shoudld've registered now :D", {
+    const user = getAccounts().find((account) => account.username === name);
+    if (!user) {
+      toaster.danger("Could not find this user!", {
         hasCloseButton: true,
         duration: 3,
-        id: "login-success",
+        id: "user-not-found",
       });
-    },
-    [password, name, login, navigate]
-  );
+      return;
+    }
+
+    authLogin(user);
+    toaster.success("Successfully logged in!", {
+      hasCloseButton: true,
+      duration: 3,
+      id: "login-success",
+    });
+    navigate("/");
+  };
+
+  const register = (event) => {
+    if (
+      name === "" ||
+      password === "" ||
+      email === "" ||
+      confirmPassword === ""
+    ) {
+      toaster.danger("Please fill all the fields!", {
+        hasCloseButton: true,
+        duration: 3,
+        id: "empty-fields",
+      });
+      return;
+    }
+
+    const user = getAccounts().find((account) => account.username === name);
+    if (user) {
+      toaster.danger("This user already exists!", {
+        hasCloseButton: true,
+        duration: 3,
+        id: "user-already-exists",
+      });
+      return;
+    }
+
+    toaster.success("Shoudld've registered now :D", {
+      hasCloseButton: true,
+      duration: 3,
+      id: "login-success",
+    });
+  };
 
   return (
     <div className="flex flex-col justify-center items-center h-[100vh] bg-[url('/images/background.jpg')] bg-center bg-cover">
