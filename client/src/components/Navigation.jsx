@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext.jsx";
 import {
   BiHomeAlt2,
   BiSearchAlt2,
@@ -8,6 +10,8 @@ import {
 import { Link } from "react-router-dom";
 
 export const Navigation = () => {
+  const { currentUser } = useContext(AuthContext);
+
   const menus = [
     {
       name: "Feed",
@@ -27,12 +31,12 @@ export const Navigation = () => {
     {
       name: "Explore",
       icon: <BiCompass className="w-8 h-8" />,
-      link: "/",
+      link: "/explore",
     },
     {
       name: "Profile",
       icon: <BiUser className="w-8 h-8" />,
-      link: "/",
+      link: `/${currentUser.username}`,
     },
   ];
 
