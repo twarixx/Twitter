@@ -39,8 +39,8 @@ export const Navigation = () => {
   return (
     <div className="bg-stone-800 text-twitter-text max-h-16 px-6 w-full">
       <ul className="list-none flex justify-between">
-        {menus.map((menu) => (
-          <li>
+        {menus.map((menu, i) => (
+          <li key={i}>
             <Link
               to={menu.link}
               className="flex flex-col items-center justify-center py-3"
