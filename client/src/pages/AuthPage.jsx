@@ -95,7 +95,7 @@ export const AuthPage = () => {
           <input
             onChange={(event) => setName(event.target.value)}
             value={name}
-            className="border-stone-800 ring-0 border outline-none w-full p-2 rounded bg-stone-700"
+            className="border-stone-800 focus:border-twitter-primary ring-0 border outline-none w-full p-2 rounded bg-stone-700"
             name="username"
             type="text"
             placeholder={
@@ -107,7 +107,7 @@ export const AuthPage = () => {
             <input
               onChange={(event) => setEmail(event.target.value)}
               value={email}
-              className="border-stone-800 ring-0 border outline-none w-full p-2 rounded bg-stone-700"
+              className="border-stone-800 focus:border-twitter-primary ring-0 border outline-none w-full p-2 rounded bg-stone-700"
               name="email"
               type="text"
               placeholder={"Email"}
@@ -117,7 +117,7 @@ export const AuthPage = () => {
           <input
             onChange={(event) => setPassword(event.target.value)}
             value={password}
-            className="border-stone-800 ring-0 border outline-none w-full p-2 rounded bg-stone-700"
+            className="border-stone-800 focus:border-twitter-primary ring-0 border outline-none w-full p-2 rounded bg-stone-700"
             name="password"
             type="password"
             placeholder="Password"
@@ -127,7 +127,7 @@ export const AuthPage = () => {
             <input
               onChange={(event) => setConfirmPassword(event.target.value)}
               value={confirmPassword}
-              className="border-stone-800 ring-0 border outline-none w-full p-2 rounded bg-stone-700"
+              className="border-stone-800 focus:border-twitter-primary ring-0 border outline-none w-full p-2 rounded bg-stone-700"
               name="confirm_password"
               type="password"
               placeholder="Confirm password"
