@@ -1,17 +1,19 @@
 import { useContext } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { AuthContext } from "./context/AuthContext.jsx";
 import {
   createBrowserRouter,
   Navigate,
   Outlet,
   RouterProvider,
 } from "react-router-dom";
+
 import { HomePage } from "./pages/HomePage.jsx";
 import { AuthPage } from "./pages/AuthPage.jsx";
 import { ExplorePage } from "./pages/ExplorePage.jsx";
 import { UnknownPage } from "./pages/UnknownPage.jsx";
+
 import { MainLayout } from "./layouts/MainLayout.jsx";
+import { AuthContext } from "./context/AuthContext.jsx";
 
 function App() {
   const { currentUser } = useContext(AuthContext);
