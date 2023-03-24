@@ -55,7 +55,7 @@ export const Post = ({
                 </div>
             ) : (
                 <div className="border-b border-b-stone-600 pb-2">
-                    <div className="ml-1 flex flex-row items-center gap-3">
+                    <div className="ml-1.5 flex flex-row items-center gap-3">
                         <Avatar user={author} />
                         <div>
                             <p className="font-semibold">
@@ -65,7 +65,7 @@ export const Post = ({
                         </div>
                     </div>
 
-                    <div className="flex ml-1 gap-2 mt-2">
+                    <div className="flex ml-1.5 gap-2 mt-2">
                         <button>L</button>
                         <button>R</button>
                         {currentUser.admin && <button>A</button>}
