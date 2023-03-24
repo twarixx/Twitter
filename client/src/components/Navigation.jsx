@@ -14,8 +14,8 @@ export const Navigation = () => {
     const { currentUser } = useContext(AuthContext);
 
     return (
-        <div className="bg-stone-800 text-twitter-text max-h-16 px-6 w-full">
-            <ul className="list-none flex justify-between">
+        <div className="bg-stone-800 text-twitter-text pt-3 pb-2 px-6 w-full">
+            <ul className="list-none flex items-center justify-between">
                 <MenuItem
                     icon={<BiHomeAlt2 className="w-8 h-8" />}
                     link="/"
@@ -27,9 +27,10 @@ export const Navigation = () => {
                     text="Search"
                 />
                 <MenuItem
-                    icon={<BiPlus className="w-8 h-8" />}
+                    icon={<BiPlus className="w-10 h-10" />}
                     onClick={() => alert("New post")}
                     text="New post"
+                    isMiddle
                 />
                 <MenuItem
                     icon={<BiCompass className="w-8 h-8" />}

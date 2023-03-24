@@ -1,7 +1,7 @@
 import { Outlet, useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext.jsx";
+import { AuthContext } from "../../context/AuthContext.jsx";
 import { useContext } from "react";
-import { Navigation } from "../components/Navigation.jsx";
+import { Navigation } from "../Navigation.jsx";
 
 export const MainLayout = ({ children }) => {
     const { logout, currentUser } = useContext(AuthContext);

@@ -12,7 +12,7 @@ import { AuthPage } from "./pages/AuthPage.jsx";
 import { ExplorePage } from "./pages/ExplorePage.jsx";
 import { UnknownPage } from "./pages/UnknownPage.jsx";
 
-import { MainLayout } from "./layouts/MainLayout.jsx";
+import { MainLayout } from "./components/layouts/MainLayout.jsx";
 import { AuthContext } from "./context/AuthContext.jsx";
 import { ProfilePage } from "./pages/ProfilePage.jsx";
 

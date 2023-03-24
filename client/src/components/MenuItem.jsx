@@ -1,12 +1,20 @@
 import { Link } from "react-router-dom";
 
-export const MenuItem = ({ icon, text, link = null, onClick = null }) => {
+export const MenuItem = ({
+    icon,
+    text,
+    link = null,
+    onClick = null,
+    isMiddle = false,
+}) => {
     if (link != null) {
         return (
             <li>
                 <Link
                     to={link}
-                    className="flex flex-col items-center justify-center py-3"
+                    className={`${
+                        isMiddle && "bg-twitter-primary w-8 h-8 "
+                    } flex flex-col items-center justify-center`}
                 >
                     {icon}
                 </Link>
@@ -16,10 +24,16 @@ export const MenuItem = ({ icon, text, link = null, onClick = null }) => {
 
     return (
         <li
-            className="flex flex-col items-center justify-center py-3"
+            className={`flex flex-col items-center justify-center`}
             onClick={onClick}
         >
-            {icon}
+            <div
+                className={`${
+                    isMiddle && "bg-twitter-secondary p-1 rounded-full"
+                }`}
+            >
+                {icon}
+            </div>
         </li>
     );
 };
