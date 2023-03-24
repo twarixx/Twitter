@@ -12,7 +12,7 @@ export const Post = ({
     const author = getAccounts().find((account) => account.id === post.userId);
 
     return (
-        <div className="">
+        <div>
             {post.picture ? (
                 <div
                     className={`${
