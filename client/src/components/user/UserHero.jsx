@@ -45,9 +45,24 @@ export const UserHero = ({ user }) => {
                         </button>
                     )}
                     <button className="bg-white rounded-xl px-4 py-1 text-stone-600">
-                        Edit
+                        {currentUser.id === user.id ? "Edit" : "Follow"}
                     </button>
                 </div>
+            </div>
+
+            <div className="ml-4 mt-2 flex gap-5 text-sm text-stone-400">
+                <p>
+                    <span className="font-semibold text-stone-300">
+                        {user.following}
+                    </span>{" "}
+                    following
+                </p>
+                <p>
+                    <span className="font-semibold text-stone-300">
+                        {user.followers}
+                    </span>{" "}
+                    followers
+                </p>
             </div>
         </div>
     );
