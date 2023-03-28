@@ -3,7 +3,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { Avatar } from "./Avatar";
 
 export const UserHero = ({ user }) => {
-    const { currentUser } = useContext(AuthContext);
+    const { currentUser, logout } = useContext(AuthContext);
 
     return (
         <div className="border-b border-b-stone-600 pb-2">
@@ -44,7 +44,10 @@ export const UserHero = ({ user }) => {
                             Admin
                         </button>
                     )}
-                    <button className="bg-white rounded-xl px-4 py-1 text-stone-600">
+                    <button
+                        onClick={logout}
+                        className="bg-white rounded-xl px-4 py-1 text-stone-600"
+                    >
                         {currentUser.id === user.id ? "Edit" : "Follow"}
                     </button>
                 </div>
