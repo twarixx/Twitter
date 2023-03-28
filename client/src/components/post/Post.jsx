@@ -19,9 +19,9 @@ export const Post = ({
                         showAuthorPicture && "mt-7 "
                     } border-b border-b-stone-600 pb-2`}
                 >
-                    <div className="relative h-52 w-full">
+                    <div className="relative max w-full">
                         <img
-                            className="object-cover center"
+                            className="object-cover max-h-64 flex justify-center w-full center"
                             src={post.image}
                             alt="Image for the post."
                         />
