@@ -11,9 +11,9 @@ export const UserHero = ({ user }) => {
             <div className="bg-twitter-secondary h-32 relative shadow-md">
                 {user.banner && (
                     <img
-                        className="object-cover"
+                        className="object-cover h-32 flex w-full"
                         src={user.banner}
-                        fill
+                        fill="true"
                         alt={`Banner of ${user.display_name}`}
                     ></img>
                 )}
