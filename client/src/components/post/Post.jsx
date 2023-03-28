@@ -57,7 +57,7 @@ export const Post = ({
                     </div>
                 </div>
             ) : (
-                <div className="border-b border-b-stone-600 pb-2">
+                <div className="border-b border-b-stone-600 pb-2 mt-2">
                     <div className="ml-1.5 flex flex-row items-center gap-3">
                         <Avatar hasBorder={hasBorder} user={author} />
                         <div>
