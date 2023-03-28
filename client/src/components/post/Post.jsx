@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { getAccounts } from "../../data/accounts";
 import { Avatar } from "../user/Avatar";
+import { Username } from "../user/Username";
 
 export const Post = ({
     post,
@@ -36,9 +37,7 @@ export const Post = ({
                     <div className="mt-4 mx-1">
                         <div className="flex flex-row gap-3">
                             <div className="flex flex-col">
-                                <h1 className="font-semibold">
-                                    {author.display_name}
-                                </h1>
+                                <Username user={author} />
 
                                 <div className="flex gap-2 mt-1">
                                     <button>L</button>
@@ -58,9 +57,7 @@ export const Post = ({
                     <div className="ml-1.5 flex flex-row items-center gap-3">
                         <Avatar user={author} />
                         <div>
-                            <p className="font-semibold">
-                                {author.display_name}
-                            </p>
+                            <Username user={author} />
                             <p className="text-sm -mt-1">{post.message}</p>
                         </div>
                     </div>

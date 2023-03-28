@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { Avatar } from "./Avatar";
+import { Username } from "./Username";
 
 export const UserHero = ({ user }) => {
     const { currentUser, logout } = useContext(AuthContext);
@@ -25,9 +26,7 @@ export const UserHero = ({ user }) => {
             <div className="mt-6 mx-4 flex justify-between">
                 <div className="flex flex-col">
                     <div className="flex flex-col">
-                        <p className="text-xl font-semibold">
-                            {user.display_name}
-                        </p>
+                        <Username user={user} />
                         <p className="text-xs text-stone-400 -mt-1">
                             @{user.username}
                         </p>

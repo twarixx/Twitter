@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import { load } from "../axios";
 import { Post } from "../components/post/Post";
 import { UserHero } from "../components/user/UserHero";
 import { getAccounts } from "../data/accounts";
@@ -8,10 +9,16 @@ import { UnknownPage } from "./UnknownPage";
 export const ProfilePage = () => {
     const { username } = useParams();
 
-    const user = getAccounts().find((account) => account.username === username);
-    if (!user) return <UnknownPage />;
+    const { data, isLoading, error } = load(
+        ["user", username],
+        `/api/user/${username}`
+    );
 
-    const posts = getPosts().filter((post) => post.userId === user.id);
+    if (isLoading) return <p>Loading...</p>;
+    if (error) return <UnknownPage />;
+
+    const user = data.data;
+    const posts = getPosts().filter((post) => post.user_id === user.id);
 
     return (
         <div>
