@@ -29,7 +29,11 @@ export const Post = ({
 
                         {showAuthorPicture && (
                             <div className="absolute -top-5 left-[40%]">
-                                <Avatar user={author} isLarge />
+                                <Avatar
+                                    user={author}
+                                    hasBorder={hasBorder}
+                                    isLarge
+                                />
                             </div>
                         )}
                     </div>
@@ -55,7 +59,7 @@ export const Post = ({
             ) : (
                 <div className="border-b border-b-stone-600 pb-2">
                     <div className="ml-1.5 flex flex-row items-center gap-3">
-                        <Avatar user={author} />
+                        <Avatar hasBorder={hasBorder} user={author} />
                         <div>
                             <Username user={author} />
                             <p className="text-sm -mt-1">{post.message}</p>
