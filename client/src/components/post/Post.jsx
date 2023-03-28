@@ -9,11 +9,11 @@ export const Post = ({
     showAuthorPicture = false,
 }) => {
     const { currentUser } = useContext(AuthContext);
-    const author = getAccounts().find((account) => account.id === post.userId);
+    const author = getAccounts().find((account) => account.id === post.user_id);
 
     return (
         <div>
-            {post.picture ? (
+            {post.image ? (
                 <div
                     className={`${
                         showAuthorPicture && "mt-7 "
@@ -22,7 +22,7 @@ export const Post = ({
                     <div className="relative h-52 w-full">
                         <img
                             className="object-cover center"
-                            src={post.picture}
+                            src={post.image}
                             alt="Image for the post."
                         />
 
