@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext.jsx";
 import {
     BiHomeAlt2,
@@ -9,8 +9,11 @@ import {
 } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { MenuItem } from "./MenuItem.jsx";
+import { SearchModal } from "./modals/SearchModal";
+import useSearchModalStore from "../hooks/useSearchModalStore";
 
 export const Navigation = () => {
+    const { openModal: openSearchModal } = useSearchModalStore();
     const { currentUser } = useContext(AuthContext);
 
     return (
@@ -23,7 +26,7 @@ export const Navigation = () => {
                 />
                 <MenuItem
                     icon={<BiSearchAlt2 className="w-8 h-8" />}
-                    onClick={() => alert("Search")}
+                    onClick={() => openSearchModal()}
                     text="Search"
                 />
                 <MenuItem
