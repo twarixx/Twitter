@@ -80,6 +80,50 @@ class UserController extends Controller {
 
 
 
+	public function search(Request $request) {
+
+		$query = $request->input('search');
+		$users = User::where('display_name', 'LIKE', "%$query%")
+				->orWhere('username', 'LIKE', "%$query%")
+				->orWhere('username', 'LIKE', "%$query")
+				->orWhere('username', 'LIKE', "$query%")
+				->get();
+		$result = [];
+
+		if ($users->isEmpty()) {
+
+			return response()->json([
+
+				'success' => false,
+				'message' => 'No users found.',
+				'data' => null,
+
+			], 404);
+
+		}
+
+		foreach ($users as $user) {
+
+			if (!in_array($user, $result)) {
+
+				$result[] = $user;
+
+			}
+
+		}
+
+		return response()->json([
+
+			'success' => true,
+			'message' => 'User(s) found.',
+			'data' => $result,
+
+		], 200);
+
+	}
+
+
+
 	public function show($query) {
 
 		$user = User::where('id', $query)
