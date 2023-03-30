@@ -3,6 +3,8 @@ import { AuthContext } from "../../context/AuthContext";
 import { getAccounts } from "../../data/accounts";
 import { Avatar } from "../user/Avatar";
 import { Username } from "../user/Username";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import { BiCommentDetail, BiCog } from "react-icons/bi";
 
 export const Post = ({
     post,
@@ -44,9 +46,17 @@ export const Post = ({
                                 <Username user={author} />
 
                                 <div className="flex gap-2 mt-1">
-                                    <button>L</button>
-                                    <button>R</button>
-                                    {currentUser.admin && <button>A</button>}
+                                    <button>
+                                        <AiOutlineHeart className="w-5 h-5" />
+                                    </button>
+                                    <button>
+                                        <BiCommentDetail className="w-5 h-5" />
+                                    </button>
+                                    {currentUser.admin && (
+                                        <button>
+                                            <BiCog className="w-5 h-5" />
+                                        </button>
+                                    )}
                                 </div>
                             </div>
 
@@ -67,9 +77,17 @@ export const Post = ({
                     </div>
 
                     <div className="flex ml-1.5 gap-2 mt-2">
-                        <button>L</button>
-                        <button>R</button>
-                        {currentUser.admin && <button>A</button>}
+                        <button>
+                            <AiOutlineHeart className="w-5 h-5" />
+                        </button>
+                        <button>
+                            <BiCommentDetail className="w-5 h-5" />
+                        </button>
+                        {currentUser.admin && (
+                            <button>
+                                <BiCog className="w-5 h-5" />
+                            </button>
+                        )}
                     </div>
                 </div>
             )}
