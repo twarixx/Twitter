@@ -23,6 +23,8 @@ return new class extends Migration
 			$table->text('banner')->nullable();
 			$table->string('profile_picture')->nullable();
 			$table->boolean('admin')->default(false);
+			$table->boolean('verified')->default(false);
+			$table->timestamp('verified_on')->nullable();
 			$table->timestamp('deactivated_on')->nullable();
 			$table->timestamps();
 		});
