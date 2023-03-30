@@ -7,6 +7,13 @@ export const SearchModal = ({ visible, onClose }) => {
 
     useEffect(() => {
         setIsVisible(!!visible);
+
+        if (visible) {
+            console.log("visible");
+
+            const inputElement = document.getElementById("search");
+            inputElement.focus();
+        }
     }, [visible]);
 
     const handleClose = useCallback(() => {
@@ -31,7 +38,11 @@ export const SearchModal = ({ visible, onClose }) => {
                     <div className="relative">
                         <div className="p-6 flex flex-col gap-1 items-center">
                             <h1 className="text-2xl font-semibold">Search</h1>
-                            <input type="text" placeholder="Search" />
+                            <input
+                                id="search"
+                                type="text"
+                                placeholder="Search"
+                            />
                         </div>
 
                         <div
