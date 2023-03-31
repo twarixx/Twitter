@@ -22,5 +22,11 @@ class User extends Model {
 		'deactivated_on',
 
 	];
+
+	protected $hidden = [
+
+		'password',
+
+	];
 	
 }
