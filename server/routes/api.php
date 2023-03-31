@@ -29,11 +29,23 @@ Route::post('user', [UserController::class, 'store']);
 Route::put('user/{user}', [UserController::class, 'update']);
 Route::delete('user/{user}', [UserController::class, 'destroy']);
 
-Route::get('post', [PostController::class, 'index']);
+Route::get('posts', [PostController::class, 'index']);
+Route::get('posts/user/{user}', [PostController::class, 'index_by_user']);
 Route::get('post/{post}', [PostController::class, 'show']);
 Route::post('post', [PostController::class, 'store']);
 Route::put('post/{post}', [PostController::class, 'update']);
 Route::delete('post/{post}', [PostController::class, 'destroy']);
+
+// check welke precies nodig zijn, meerder combineren?
+// ik kan bijvoorbeeld een /api/profile/{user} maken, en dan user info, followers, posts laden zodat een profiel in 1x geladen kan worden. Als de token dan ook meegegeven wordt kan ik kijken welke persoon probeert te kijken, dan kan ook de check gebruikt worden of hij niet geblokkeerd is en of het account prive staat.
+// - is_following
+// - is_blocked
+// - is_private
+// - posts
+// - followers
+
+// Bij het bekijken van je eigen profiel zelfde verhaal, dan kunnen we kijken of de token hetzelfde is als de user die we willen zien. en dan gewoon alles laten zien.
+// - followers
 
 Route::get('report/{report}', [ReportController::class, 'index']);
 Route::post('report', [ReportController::class, 'store']);
