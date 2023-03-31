@@ -80,6 +80,8 @@ class UserController extends Controller {
 
 
 
+	// omzetten naar users/posts
+
 	public function search(Request $request) {
 
 		$query = $request->input('search');
@@ -158,6 +160,8 @@ class UserController extends Controller {
 
 
 
+	// verified werkt niet
+
 	public function update(Request $request, $user) {
 
 		$validatedData = $request->validate([
@@ -168,6 +172,8 @@ class UserController extends Controller {
 			'display_name' => 'sometimes|required',
 			'bio' => 'sometimes|required',
 			'banner' => 'sometimes|required',
+			'verified' => 'sometimes|required',
+			'verified_on' => 'sometimes|required',
 			'profile_picture' => 'sometimes|required',
 			'admin' => 'sometimes|required|boolean',
 			'deactivated_on' => 'sometimes|required|date_format:Y-m-d H:i:s',
