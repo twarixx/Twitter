@@ -15,13 +15,14 @@ import { UnknownPage } from "./pages/UnknownPage.jsx";
 import { MainLayout } from "./components/layouts/MainLayout.jsx";
 import { AuthContext } from "./context/AuthContext.jsx";
 import { ProfilePage } from "./pages/ProfilePage.jsx";
+import { SearchPage } from "./pages/SearchPage";
 
 function App() {
     const { currentUser } = useContext(AuthContext);
     const queryClient = new QueryClient();
 
     function detectMobile() {
-        return Math.min(window.screen.width, window.screen.height) < 768;
+        return Math.min(window.screen.width, window.screen.height) < 1024;
     }
 
     const LoggedIn = ({ children }) => {
@@ -56,6 +57,10 @@ function App() {
                 {
                     path: "/explore",
                     element: <ExplorePage />,
+                },
+                {
+                    path: "/search",
+                    element: <SearchPage />,
                 },
                 {
                     path: "/:username",
