@@ -21,7 +21,7 @@ export const SearchResult = ({ query }) => {
     if (error)
         return (
             <div>
-                <p className="text-stone-400 text-sm">
+                <p className="text-stone-400 text-sm text-center">
                     Could not find any results!
                 </p>
             </div>

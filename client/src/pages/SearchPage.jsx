@@ -16,6 +16,12 @@ export const SearchPage = () => {
         setQuery(search);
     };
 
+    let displayQuery = query;
+    if (query.length > 25) {
+        displayQuery = displayQuery.substring(0, 25);
+        displayQuery += "...";
+    }
+
     return (
         <div className="flex flex-col items-center gap-2">
             <div className="flex justify-center p-4 pb-2 px-6 w-full">
@@ -36,7 +42,9 @@ export const SearchPage = () => {
                 {query && query.length >= 2 ? (
                     <div className="w-full gap-4 flex flex-col">
                         <div className="flex gap-3 justify-center items-center w-full">
-                            <h1 className="text-xl">Results for {query}:</h1>
+                            <h1 className="text-xl">
+                                Results for {displayQuery}
+                            </h1>
                         </div>
                         <SearchResult query={query} />
                     </div>
