@@ -3,6 +3,7 @@ import { load } from "../../axios";
 import { Username } from "../user/Username";
 
 export const SearchResult = ({ query }) => {
+    const navigate = useNavigate();
     const { data, isLoading, error } = load(
         ["search", query],
         `/api/search/${query}`
@@ -10,6 +11,10 @@ export const SearchResult = ({ query }) => {
 
     if (isLoading) return "Loading";
     if (error) return "Error";
+
+    if (data.data.length === 1) {
+        return navigate("/" + data.data[0].username);
+    }
 
     return (
         <div className="flex w-full flex-col">
