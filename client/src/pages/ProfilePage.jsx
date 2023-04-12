@@ -3,6 +3,7 @@ import { load } from "../axios";
 import { Post } from "../components/post/Post";
 import { UserHero } from "../components/user/UserHero";
 import { UnknownPage } from "./UnknownPage";
+import Puff from "../components/loading/Puff";
 
 export const ProfilePage = () => {
     const { username } = useParams();
@@ -12,7 +13,13 @@ export const ProfilePage = () => {
         `/api/user/${username}`
     );
 
-    if (isLoading) return <p>Loading...</p>;
+    if (isLoading)
+        return (
+            <div className="w-[100vw] h-[100vh] flex justify-center items-center">
+                <Puff width="66" height="66" stroke="#e5e5e5" />
+            </div>
+        );
+
     if (error) return <UnknownPage />;
 
     const user = data.data;
