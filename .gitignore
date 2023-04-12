@@ -4,3 +4,5 @@
 alljson.json
 
 client/src/data/
+
+node_modules/
