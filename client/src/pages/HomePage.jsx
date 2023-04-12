@@ -1,12 +1,11 @@
 import { AuthContext } from "../context/AuthContext.jsx";
 import { useContext } from "react";
-import { getPosts } from "../data/posts.jsx";
 import { Post } from "../components/post/Post.jsx";
 
 export const HomePage = () => {
     const { currentUser } = useContext(AuthContext);
 
-    const posts = getPosts();
+    const posts = [];
     if (posts.length === 0) {
         return (
             <div className="p-2 w-full">

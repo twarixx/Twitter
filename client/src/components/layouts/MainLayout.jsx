@@ -2,16 +2,12 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext.jsx";
 import { useContext, useState } from "react";
 import { Navigation } from "../Navigation.jsx";
+import { Banned } from "../Banned.jsx";
 
 export const MainLayout = ({ children }) => {
-    const { logout, currentUser } = useContext(AuthContext);
-    const navigate = useNavigate();
+    const { currentUser } = useContext(AuthContext);
 
-    const handleLogout = () => {
-        logout();
-        navigate("/auth");
-    };
-
+    if (currentUser.banned) return <Banned />;
     return (
         <div className="text-twitter-text h-full">
             {/* <div className="flex justify-between p-2">

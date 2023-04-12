@@ -1,12 +1,14 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
-import { getAccounts } from "../data/accounts.jsx";
 import { toaster } from "evergreen-ui";
 import { useCallback } from "react";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { makeRequest } from "../axios";
 
 export const AuthPage = () => {
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
 
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -21,6 +23,36 @@ export const AuthPage = () => {
         setVariant((prev) => (prev === "register" ? "login" : "register"));
     }, []);
 
+    const mutation = useMutation(
+        (data) => {
+            return makeRequest.post(`/api/${variant}`, data);
+        },
+        {
+            onSuccess: (data) => {
+                authLogin(data.data.data);
+
+                toaster.success(
+                    variant === "login"
+                        ? "Successfully logged in!"
+                        : "Successfully signed up!",
+                    {
+                        hasCloseButton: true,
+                        duration: 3,
+                        id: "login-successful",
+                    }
+                );
+            },
+
+            onError: (error) => {
+                toaster.danger(error.response.data.message, {
+                    hasCloseButton: true,
+                    duration: 3,
+                    id: error.message.replace(" ", "-"),
+                });
+            },
+        }
+    );
+
     const login = (event) => {
         event.preventDefault();
 
@@ -33,23 +65,18 @@ export const AuthPage = () => {
             return;
         }
 
-        const user = getAccounts().find((account) => account.username === name);
-        if (!user) {
-            toaster.danger("Could not find this user!", {
-                hasCloseButton: true,
-                duration: 3,
-                id: "user-not-found",
+        if (name.includes("@")) {
+            mutation.mutate({
+                email: name,
+                password: password,
             });
             return;
         }
 
-        authLogin(user);
-        toaster.success("Successfully logged in!", {
-            hasCloseButton: true,
-            duration: 3,
-            id: "login-success",
+        mutation.mutate({
+            username: name,
+            password: password,
         });
-        navigate("/");
     };
 
     const register = (event) => {
@@ -69,20 +96,11 @@ export const AuthPage = () => {
             return;
         }
 
-        const user = getAccounts().find((account) => account.username === name);
-        if (user) {
-            toaster.danger("This user already exists!", {
-                hasCloseButton: true,
-                duration: 3,
-                id: "user-already-exists",
-            });
-            return;
-        }
-
-        toaster.success("Shoudld've registered now :D", {
-            hasCloseButton: true,
-            duration: 3,
-            id: "login-success",
+        mutation.mutate({
+            username: name,
+            password: password,
+            email: email,
+            confirm_password: confirmPassword,
         });
     };
 

@@ -38,11 +38,11 @@ export const UserHero = ({ user }) => {
                 </div>
 
                 <div className="-mt-4 -mr-1.5 space-x-2">
-                    {currentUser.admin && (
+                    {currentUser.admin ? (
                         <button className="bg-red-600 text-stone-50 rounded-xl px-3 py-1">
                             Admin
                         </button>
-                    )}
+                    ) : ""}
                     <button
                         onClick={logout}
                         className="bg-white rounded-xl px-4 py-1 text-stone-600"
