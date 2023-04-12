@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { load } from "../../axios";
 import { Username } from "../user/Username";
 import Puff from "../loading/Puff";
+import { UserSearchResult } from "./UserSearchResult";
 
 export const SearchResult = ({ query }) => {
     const navigate = useNavigate();
@@ -27,11 +28,11 @@ export const SearchResult = ({ query }) => {
         );
 
     return (
-        <div className="flex w-full flex-col">
+        <div className="flex w-full flex-col gap-4">
             {data.data.map((result) => {
                 return (
                     <Link key={result.id} to={`/${result.username}`}>
-                        <Username user={result} />
+                        <UserSearchResult user={result} />
                     </Link>
                 );
             })}

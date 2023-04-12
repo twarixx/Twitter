@@ -32,10 +32,12 @@ export const SearchPage = () => {
                 </form>
             </div>
 
-            <div className="border-t border-t-stone-600 w-full flex px-2 text-center justify-center pt-2">
+            <div className="border-t border-t-stone-600 w-full flex px-2 pt-2">
                 {query && query.length >= 2 ? (
-                    <div className="flex flex-col gap-3">
-                        <h1 className="text-xl">Results for {query}:</h1>
+                    <div className="w-full gap-4 flex flex-col">
+                        <div className="flex gap-3 justify-center items-center w-full">
+                            <h1 className="text-xl">Results for {query}:</h1>
+                        </div>
                         <SearchResult query={query} />
                     </div>
                 ) : (
