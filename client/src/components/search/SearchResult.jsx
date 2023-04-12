@@ -26,10 +26,6 @@ export const SearchResult = ({ query }) => {
             </div>
         );
 
-    if (data.data.length === 1) {
-        return setTimeout(() => navigate("/" + data.data[0].username), 10);
-    }
-
     return (
         <div className="flex w-full flex-col">
             {data.data.map((result) => {
