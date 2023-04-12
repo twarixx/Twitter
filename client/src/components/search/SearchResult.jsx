@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { load } from "../../axios";
 import { Username } from "../user/Username";
+import Puff from "../loading/Puff";
 
 export const SearchResult = ({ query }) => {
     const navigate = useNavigate();
@@ -9,19 +10,32 @@ export const SearchResult = ({ query }) => {
         `/api/search/${query}`
     );
 
-    if (isLoading) return "Loading";
-    if (error) return "Error";
+    if (isLoading)
+        return (
+            <div className="w-full h-full flex justify-center mt-2.5">
+                <Puff width="66" height="66" stroke="#e5e5e5" />
+            </div>
+        );
+
+    if (error)
+        return (
+            <div>
+                <p className="text-stone-400 text-sm">
+                    Could not find any results!
+                </p>
+            </div>
+        );
 
     if (data.data.length === 1) {
-        return navigate("/" + data.data[0].username);
+        return setTimeout(() => navigate("/" + data.data[0].username), 10);
     }
 
     return (
         <div className="flex w-full flex-col">
             {data.data.map((result) => {
                 return (
-                    <Link to={`/${result.username}`}>
-                        <Username key={result.id} user={result} />
+                    <Link key={result.id} to={`/${result.username}`}>
+                        <Username user={result} />
                     </Link>
                 );
             })}
