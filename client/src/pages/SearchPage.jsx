@@ -49,7 +49,9 @@ export const SearchPage = () => {
                         <SearchResult query={query} />
                     </div>
                 ) : (
-                    <h1 className="text-xl">Recent searches</h1>
+                    <div className="flex justify-center w-full">
+                        <h1 className="text-xl">Recent searches</h1>
+                    </div>
                 )}
             </div>
         </div>
