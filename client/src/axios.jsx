@@ -3,6 +3,7 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
 export const makeRequest = axios.create({
     baseURL: "https://school.wesleyschreur.nl",
+    withCredentials: true,
 });
 
 export function load(identifier, url) {

@@ -65,16 +65,8 @@ export const AuthPage = () => {
             return;
         }
 
-        if (name.includes("@")) {
-            mutation.mutate({
-                email: name,
-                password: password,
-            });
-            return;
-        }
-
         mutation.mutate({
-            username: name,
+            login: name,
             password: password,
         });
     };

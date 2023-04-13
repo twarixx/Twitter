@@ -5,7 +5,6 @@ import Puff from "../loading/Puff";
 import { UserSearchResult } from "./UserSearchResult";
 
 export const SearchResult = ({ query }) => {
-    const navigate = useNavigate();
     const { data, isLoading, error } = load(
         ["search", query],
         `/api/search/${query}`
@@ -32,7 +31,7 @@ export const SearchResult = ({ query }) => {
             {data.data.map((result) => {
                 return (
                     <Link key={result.id} to={`/${result.username}`}>
-                        <UserSearchResult user={result} />
+                        <UserSearchResult key={result.id} user={result} />
                     </Link>
                 );
             })}

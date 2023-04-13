@@ -7,7 +7,7 @@ import { Banned } from "../Banned.jsx";
 export const MainLayout = ({ children }) => {
     const { currentUser } = useContext(AuthContext);
 
-    if (currentUser.banned) return <Banned />;
+    if (currentUser.banned_on) return <Banned />;
     return (
         <div className="text-twitter-text h-full">
             {/* <div className="flex justify-between p-2">

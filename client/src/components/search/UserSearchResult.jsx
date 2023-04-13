@@ -4,19 +4,25 @@ import { BiUser } from "react-icons/bi";
 
 export const UserSearchResult = ({ user }) => {
     return (
-        <div className="bg-stone-600 rounded-lg p-2 mx-1 flex justify-between">
-            <div className="flex gap-3">
-                <Avatar user={user} isLarge />
-                <div className="flex flex-col items-start justify-center">
-                    <Username user={user} />
-                    <p className="text-xs text-stone-400 -mt-1">
-                        @{user.username}
-                    </p>
-                </div>
-            </div>
+        <div className="relative h-20 rounded-lg">
+            <img
+                className="relative object-cover rounded-lg h-20 flex w-full"
+                src={user.banner || "/images/default_banner.svg"}
+                fill="true"
+                alt={`Banner of ${user.display_name}`}
+            ></img>
+            <div className="absolute top-0 bg-opacity-60 rounded-lg bg-black h-full w-full"></div>
 
-            <div className="flex justify-center items-center">
-                <BiUser className="w-8 h-8 text-stone-400 m-1" />
+            <div className="absolute top-2 left-2">
+                <div className="flex gap-4 items-center">
+                    <Avatar user={user} isLarge />
+                    <div>
+                        <Username user={user} />
+                        <p className="text-xs text-stone-400 -mt-1">
+                            @{user.username}
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     );

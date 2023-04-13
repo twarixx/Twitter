@@ -16,6 +16,7 @@ import { MainLayout } from "./components/layouts/MainLayout.jsx";
 import { AuthContext } from "./context/AuthContext.jsx";
 import { ProfilePage } from "./pages/ProfilePage.jsx";
 import { SearchPage } from "./pages/SearchPage";
+import { EditPage } from "./pages/EditPage.jsx";
 
 function App() {
     const { currentUser } = useContext(AuthContext);
@@ -61,6 +62,10 @@ function App() {
                 {
                     path: "/search",
                     element: <SearchPage />,
+                },
+                {
+                    path: "/:username/edit",
+                    element: <EditPage />,
                 },
                 {
                     path: "/:username",
