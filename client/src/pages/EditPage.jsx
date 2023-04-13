@@ -14,7 +14,9 @@ import { UnknownPage } from "./UnknownPage";
 
 export const EditPage = () => {
     const { currentUser, logout } = useContext(AuthContext);
-    const { username } = useParams();
+    let { username } = useParams();
+
+    if (!currentUser.admin) username = currentUser.username;
 
     const queryClient = useQueryClient();
     const mutation = useMutation(
@@ -117,7 +119,7 @@ export const EditPage = () => {
                             >
                                 Account
                             </Tab>
-                            {currentUser.admin && (
+                            {currentUser.admin ? (
                                 <Tab
                                     className={({ selected }) =>
                                         selected
@@ -127,6 +129,8 @@ export const EditPage = () => {
                                 >
                                     Admin
                                 </Tab>
+                            ) : (
+                                ""
                             )}
                         </Tab.List>
                     </div>
@@ -145,13 +149,15 @@ export const EditPage = () => {
                                         user={editingUser}
                                     ></AccountEdit>
                                 </Tab.Panel>
-                                {currentUser.admin && (
+                                {currentUser.admin ? (
                                     <Tab.Panel>
                                         <AdminEdit
                                             setUser={user}
                                             user={editingUser}
                                         ></AdminEdit>
                                     </Tab.Panel>
+                                ) : (
+                                    ""
                                 )}
                             </Tab.Panels>
 
