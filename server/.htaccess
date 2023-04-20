@@ -4,7 +4,7 @@
     RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>
 
-Header always set Access-Control-Allow-Origin "http://localhost:5173"
-Header always set Access-Control-Allow-Methods "POST, GET, OPTIONS, DELETE, PUT"
-Header always set Access-Control-Allow-Headers "X-Requested-With, Content-Type, Origin, Authorization, Accept, Client-Security-Token, Accept-Encoding"
-Header always set Access-Control-Allow-Credentials "true"
+
+AddType text/javascript .js
+AddType application/javascript .js
+AddType application/x-javascript .js

@@ -206,7 +206,45 @@ class UserController extends Controller {
 
 	public function update(Request $request, $user) {
 
-		$token = $request->cookie('token');
+		//$token = $request->cookie('token');
+
+		if ($request->input('token')) {
+
+			$token = $request->input('token');
+
+			$current_user = User::where('api_token', decrypt($token))->first();
+
+			if ($current_user->id == $user || $current_user->admin == 1) {
+	
+				//if ($current_user->admin == 1) {
+				//
+				//}
+
+			} else {
+					
+				return response()->json([
+
+					'success' => false,
+					'author' => "Mr. Patch the Penguin",
+					'message' => 'Don\'t try to do this!',
+					'data' => null,
+
+				], 400);
+	
+			}
+
+		} else {
+			
+			return response()->json([
+
+				'success' => false,
+				'author' => "Mr. Patch the Penguin",
+				'message' => 'Login maybe?',
+				'data' => null,
+
+			], 400);
+
+		}
 		
 		/*if (!$token) {
 
@@ -422,7 +460,8 @@ class UserController extends Controller {
 		}
 
 		$token = Str::random(60);
-		$cookie = cookie('token', encrypt($token), time() + 315360000);
+		$encrypted_token = encrypt($token);
+		$cookie = cookie('token', $encrypted_token, time() + 315360000);
 
 		$user->update([
 
@@ -440,6 +479,7 @@ class UserController extends Controller {
 				['following_num' => $user->relationships->count()],
 				['followers' => $user->followers],
 				['followers_num' => $user->followers->count()],
+				['token' => $encrypted_token],
 			),
 
 		], 200)->withCookie($cookie);
