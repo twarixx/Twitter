@@ -45,7 +45,7 @@ export const EditPage = () => {
 
     const { data, isLoading, error } = load(
         ["user", username],
-        `/api/user/${username}`
+        `/api/user/${username}/${currentUser.token}}`
     );
 
     if (isLoading)
@@ -59,8 +59,6 @@ export const EditPage = () => {
 
     let user = data.data;
     let editingUser = {};
-
-    console.log(user);
 
     const save = (e) => {
         e.preventDefault();
