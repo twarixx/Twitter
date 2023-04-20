@@ -1,33 +1,35 @@
 <?php
 
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RelationshipController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
-Route::post('search', [UserController::class, 'search']);
+Route::get('search/{query}', [UserController::class, 'search']);
 
+Route::post('logout', [UserController::class, 'logout']);
 Route::post('login', [UserController::class, 'login']);
 
-Route::get('users', [UserController::class, 'index']);
+// voor admin
+//TODO Route::get('users', [UserController::class, 'index']);
 Route::get('user/{user}', [UserController::class, 'show']);
-Route::post('user', [UserController::class, 'store']);
+Route::post('register', [UserController::class, 'store']);
 Route::put('user/{user}', [UserController::class, 'update']);
 Route::delete('user/{user}', [UserController::class, 'destroy']);
+
+Route::get('relationship/{target}/{type}', [RelationshipController::class, 'update']);
+
+
+
+
+
+
+
+
+
+
 
 Route::get('posts', [PostController::class, 'index']);
 Route::get('posts/user/{user}', [PostController::class, 'index_by_user']);

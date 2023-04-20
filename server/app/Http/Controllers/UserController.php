@@ -7,12 +7,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class UserController extends Controller {
 
 
 
 	public function index() {
+
+		return 'todo admin';
+
+		// ALLEEN VOOR ADMIN
+
+		/*$user = User::select('username', 'display_name', 'profile_picture', 'admin', 'verified')
+					->whereNull('deactivated_on')
+					->get();
 
 		$user = User::all();
 
@@ -36,7 +45,7 @@ class UserController extends Controller {
 
 			], 404);
 
-		}
+		}*/
 
 	}
 
@@ -48,10 +57,12 @@ class UserController extends Controller {
 
 			'email' => 'required|email|unique:users',
 			'password' => 'required|min:6',
+			'confirm_password' => 'required|min:6',
+			'username' => 'required|unique:users',
 
 		]);
 
-		if ($validatedData->fails()) {
+		if ($validatedData->fails() ) {
 
 			return response()->json([
 
@@ -63,18 +74,37 @@ class UserController extends Controller {
 
 		}
 
+		if ($request->input('password') != $request->input('confirm_password')) {
+
+			return response()->json([
+
+				'success' => false,
+				'message' => 'Password and confirm password do not match.',
+				'data' => null,
+
+			], 400);
+
+		}
+
+		$token = Str::random(60);
+		$cookie = cookie('token', encrypt($token), time() + 315360000, '/', null, false, false);
+
 		$user = new User();
 		$user->email = $request->input('email');
 		$user->password = bcrypt($request->input('password'));
+		$user->username = $request->input('username');
+		$user->display_name = ucfirst(strtolower($user->username));
+		$user->api_token = $token;
 		$user->save();
 
 		return response()->json([
 
 			'success' => true,
 			'message' => 'User created.',
+			'token' => $token,
 			'data' => $user
 
-		], 201);
+		], 201)->withCookie($cookie);
 
 	}
 
@@ -82,14 +112,28 @@ class UserController extends Controller {
 
 	// omzetten naar users/posts
 
-	public function search(Request $request) {
+	public function search(Request $request, $query) {
 
-		$query = $request->input('search');
-		$users = User::where('display_name', 'LIKE', "%$query%")
-				->orWhere('username', 'LIKE', "%$query%")
-				->orWhere('username', 'LIKE', "%$query")
-				->orWhere('username', 'LIKE', "$query%")
-				->get();
+		$users = User::select('id', 'username', 'display_name', 'profile_picture', 'banner', 'verified_on')
+			->whereNull('deactivated_on')
+			->whereNull('banned_on')
+			->where(function ($q) use ($query) {
+				$q->where('display_name', 'LIKE', '%'.$query.'%')
+					->orWhere('username', 'LIKE', '%'.$query.'%');
+			})
+			->orderByRaw('CASE
+				WHEN display_name = ? THEN 0
+				WHEN display_name LIKE ? THEN 1
+				WHEN display_name LIKE ? THEN 2
+				ELSE 3
+			END', [$query, $query.'%', '%'.$query.'%'])
+			->orderByRaw('CASE
+				WHEN username = ? THEN 0
+				WHEN username LIKE ? THEN 1
+				WHEN username LIKE ? THEN 2
+				ELSE 3
+			END', [$query, $query.'%', '%'.$query.'%'])
+			->get();
 		$result = [];
 
 		if ($users->isEmpty()) {
@@ -160,42 +204,164 @@ class UserController extends Controller {
 
 
 
-	// verified werkt niet
-
 	public function update(Request $request, $user) {
 
-		$validatedData = $request->validate([
+		$token = $request->cookie('token');
+		
+		/*if (!$token) {
+
+			return response()->json([
+
+				'success' => false,
+				'author' => "Mr. Patch the Penguin",
+				'message' => 'Login maybe?',
+				'data' => null,
+
+			], 400);
+
+		}
+
+		$current_user = User::where('api_token', decrypt($token))->first();
+
+		if ($current_user->id == $user || $current_user->admin == 1) {
+
+			//if ($current_user->admin == 1) {
+//
+			//}
+
+
+
+
+		} else {
+				
+				return response()->json([
+
+					'success' => false,
+					'author' => "Mr. Patch the Penguin",
+					'message' => 'Don\'t try to do this!',
+					'data' => null,
+
+				], 400);
+
+		}*/
+
+		//$validatedData = $request->validate([
+		$validatedData = Validator::make($request->all(), [
 
 			'email' => 'sometimes|required|email|unique:users,email,' . $user,
-			'password' => 'sometimes|required|min:8',
-			'username' => 'sometimes|required|unique:users,username,' . $user,
-			'display_name' => 'sometimes|required',
-			'bio' => 'sometimes|required',
-			'banner' => 'sometimes|required',
-			'verified' => 'sometimes|required',
-			'verified_on' => 'sometimes|required',
-			'profile_picture' => 'sometimes|required',
-			'admin' => 'sometimes|required|boolean',
-			'deactivated_on' => 'sometimes|required|date_format:Y-m-d H:i:s',
+			'old_password' => 'sometimes|required|min:6',
+			'password' => 'sometimes|required|min:6',
+			'confirm_password' => 'sometimes|required|min:6',
+			'username' => 'sometimes|unique:users,username|max:18,' . $user,
+			'display_name' => 'sometimes|nullable|string|max:18',
+			'bio' => 'sometimes|nullable|string|max:255',
+			'banner' => 'sometimes|nullable|string',
+			'verified_on' => 'sometimes|nullable|string',
+			'profile_picture' => 'sometimes|nullable|string',
+			'admin' => 'sometimes|boolean',
+			'banned_on' => 'sometimes|nullable|string',
+			'deactivated_on' => 'sometimes|nullable|date_format:Y-m-d H:i:s',
 
 		]);
 
+		if ($validatedData->fails() ) {
+
+			return response()->json([
+
+				'success' => false,
+				'message' => $validatedData->errors()->first(),
+				'data' => null,
+
+			], 400);
+
+		}
+
 		$userData = [];
 
-		if (isset($validatedData['email'])) { $userData['email'] = $validatedData['email']; }
-		if (isset($validatedData['password'])) { $userData['password'] = bcrypt($validatedData['password']); }
-		if (isset($validatedData['username'])) { $userData['username'] = $validatedData['username']; }
-		if (isset($validatedData['display_name'])) { $userData['display_name'] = $validatedData['display_name']; }
-		if (isset($validatedData['bio'])) { $userData['bio'] = $validatedData['bio']; }
-		if (isset($validatedData['banner'])) { $userData['banner'] = $validatedData['banner']; }
-		if (isset($validatedData['profile_picture'])) { $userData['profile_picture'] = $validatedData['profile_picture']; }
-		if (isset($validatedData['admin'])) { $userData['admin'] = $validatedData['admin']; }
-		if (isset($validatedData['deactivated_on'])) { $userData['deactivated_on'] = $validatedData['deactivated_on']; }
+		$checks = [
+			'email', 'password', 'confirm_password', 'username', 'display_name', 'bio', 'banner', 'verified_on', 'profile_picture', 'admin', 'deactivated_on', 'banned_on', 'old_password'
+		];
+
+		foreach ($checks as $check) {
+
+			/*if (array_key_exists($check, $validatedData)) {
+
+				$userData[$check] = $validatedData[$check];
+
+			}*/
+
+			if ($request->has($check)) {
+
+				if ($check == 'banned_on' && $request->input('banned_on') == 'now') {
+
+					$userData['banned_on'] = date('Y-m-d H:i:s');
+
+					continue;
+
+				}
+
+				$userData[$check] = $request->input($check);
+
+			}
+
+		}
+
+		if (isset($userData['password'])) {
+
+			if (isset($userData['old_password'])) {
+
+				$user_data = User::where('id', $user)->first();
+
+				if (Hash::check($userData['old_password'], $user_data->password)) {
+
+					if (isset($userData['confirm_password']) && $userData['password'] == $userData['confirm_password']) {
+		
+						$userData['password'] = bcrypt($userData['password']);
+		
+					} else {
+		
+						return response()->json([
+							'1' => $userData['password'],
+							'2' => $userData['confirm_password'],
+							'success' => false,
+							'message' => 'Password and confirm password do not match.',
+							'data' => null,
+		
+						], 400);
+		
+					}
+
+				} else {
+
+					return response()->json([
+
+						'success' => false,
+						'message' => 'Old password is incorrect.',
+						'data' => null,
+
+					], 400);
+
+				}
+
+			} else {
+				
+				return response()->json([
+
+					'success' => false,
+					'message' => 'Old password is required.',
+					'data' => null,
+
+				], 400);
+			}
+
+		}
 
 		$user = User::where('email', $user)
 			->orWhere('username', $user)
 			->orWhere('id', $user)
 			->firstOrFail();
+		unset($userData['confirm_password']);
+		unset($userData['old_password']);
 		$user->update($userData);
 
 		return response()->json([
@@ -233,10 +399,56 @@ class UserController extends Controller {
 
 	public function login(Request $request) {
 
-		$validatedData = Validator::make($request->all(), [
+		$validatedData = $request->validate([
 
-			'email' => 'required_without:username|email',
-			'username' => 'required_without:email',
+			'login' => 'required',
+			'password' => 'required|min:6',
+
+		]);
+
+		$user = User::where('email', $request->input('login'))
+					->orWhere('username', $request->input('login'))
+					->first();
+
+		if (!$user || !Hash::check($request->input('password'), $user->password)) {
+
+			return response()->json([
+
+				'success' => false,
+				'message' => 'Invalid credentials.',
+
+			], 401);
+
+		}
+
+		$token = Str::random(60);
+		$cookie = cookie('token', encrypt($token), time() + 315360000);
+
+		$user->update([
+
+			'api_token' => $token,
+
+		]);
+
+		return response()->json([
+
+			'success' => true,
+			'message' => 'User logged in.',
+			'data' => array_merge(
+				$user->toArray(),
+				['following' => $user->relationships],
+				['following_num' => $user->relationships->count()],
+				['followers' => $user->followers],
+				['followers_num' => $user->followers->count()],
+			),
+
+		], 200)->withCookie($cookie);
+
+
+
+		/*$validatedData = Validator::make($request->all(), [
+
+			'login' => 'required',
 			'password' => 'required|min:6',
 
 		]);
@@ -253,8 +465,8 @@ class UserController extends Controller {
 
 		}
 
-		$user = User::where('email', $request->input('email'))
-					->orWhere('username', $request->input('username'))
+		$user = User::where('email', $request->input('login'))
+					->orWhere('username', $request->input('login'))
 					->first();
 
 		if (!$user || !Hash::check($request->input('password'), $user->password)) {
@@ -276,13 +488,38 @@ class UserController extends Controller {
 
 		}
 
+		$token = Str::random(60);
+		$cookie = cookie('token', encrypt($token), time() + 315360000, '/', null, false, false);
+
+		$user->update([
+
+			'api_token' => $token,
+
+		]);
+
 		return response()->json([
 
 			'success' => true,
 			'message' => 'Login successful.',
-			'data' => $user,
+			'token' => $token,
+			'data' => array_merge($user->toArray(), ['following' => $user->relationships]),
 
-		], 200);
+		], 200)->withCookie($cookie);*/
+
+	}
+
+
+
+	public function logout(Request $request) {
+
+		$cookie = cookie()->forget('token');
+
+		return response()->json([
+
+			'success' => true,
+			'message' => 'Logged out successfully.',
+
+		], 200)->withCookie($cookie);
 
 	}
 
