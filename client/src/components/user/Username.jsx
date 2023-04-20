@@ -14,7 +14,7 @@ export const Username = ({ user }) => {
                         className="absolute -top-1.5 -right-7 w-7 h-7"
                         title={`{user.display_name} is an admin.`}
                     />
-                    {user.username === "wls" ? (
+                    {user.id === 4 ? (
                         <GiFlame
                             color="#FF4F4F"
                             className="absolute -top-3.5 -right-7 w-5 h-5"
