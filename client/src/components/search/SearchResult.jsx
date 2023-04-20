@@ -3,11 +3,14 @@ import { load } from "../../axios";
 import { Username } from "../user/Username";
 import Puff from "../loading/Puff";
 import { UserSearchResult } from "./UserSearchResult";
+import { AuthContext } from "../../context/AuthContext";
+import { useContext } from "react";
 
 export const SearchResult = ({ query }) => {
+    const { currentUser } = useContext(AuthContext);
     const { data, isLoading, error } = load(
         ["search", query],
-        `/api/search/${query}`
+        `/api/search/${query}/${currentUser.token}`
     );
 
     if (isLoading)

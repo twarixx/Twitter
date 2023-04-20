@@ -4,13 +4,20 @@ import { Post } from "../components/post/Post";
 import { UserHero } from "../components/user/UserHero";
 import { UnknownPage } from "./UnknownPage";
 import Puff from "../components/loading/Puff";
+import { AuthContext } from "../context/AuthContext";
+import { useCallback, useContext, useState } from "react";
+import { ProfilePosts } from "../components/user/ProfilePosts";
+import { ProfileFollowers } from "../components/user/ProfileFollowers";
+import { ProfileFollowing } from "../components/user/ProfileFollowing";
 
 export const ProfilePage = () => {
+    const { currentUser } = useContext(AuthContext);
     const { username } = useParams();
+    const [variant, setVariant] = useState("posts");
 
     const { data, isLoading, error } = load(
         ["user", username],
-        `/api/user/${username}`
+        `/api/user/${username}/${currentUser.token}`
     );
 
     if (isLoading)
@@ -26,20 +33,10 @@ export const ProfilePage = () => {
 
     return (
         <div>
-            <UserHero user={user} />
-            <div className="mt-2">
-                {/* {!posts ? (
-                    <div className="flex justify-center text-stone-300 mt-4">
-                        <p>This user hasn't posted anything!</p>
-                    </div>
-                ) : (
-                    <div>
-                        {posts.map((post, i) => (
-                            <Post key={i} post={post} hasBorder />
-                        ))}
-                    </div>
-                )} */}
-            </div>
+            <UserHero variant={setVariant} user={user} />
+            {variant === "posts" ? <ProfilePosts user={user} /> : ""}
+            {variant === "followers" ? <ProfileFollowers user={user} /> : ""}
+            {variant === "following" ? <ProfileFollowing user={user} /> : ""}
         </div>
     );
 };

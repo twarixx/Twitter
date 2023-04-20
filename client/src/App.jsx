@@ -71,6 +71,10 @@ function App() {
                     path: "/:username",
                     element: <ProfilePage />,
                 },
+                {
+                    path: "/:username",
+                    element: <ProfilePage />,
+                },
             ],
         },
         {

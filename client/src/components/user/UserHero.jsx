@@ -4,9 +4,46 @@ import { Avatar } from "./Avatar";
 import { Username } from "./Username";
 import { BiCog } from "react-icons/bi";
 import { Link } from "react-router-dom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { makeRequest } from "../../axios";
 
-export const UserHero = ({ user }) => {
+export const UserHero = ({ user, variant }) => {
     const { currentUser, logout } = useContext(AuthContext);
+
+    const queryClient = useQueryClient();
+    const mutation = useMutation(
+        () => {
+            const data = {
+                token: currentUser.token,
+                type: "follow",
+                target: user.id,
+            };
+
+            if (user.followers.find((el) => el.id === currentUser.id)) {
+                user.followers.splice(
+                    user.followers.findIndex((el) => el.id === currentUser.id),
+                    1
+                );
+            } else {
+                user.followers.push(currentUser);
+            }
+
+            return makeRequest.post(`/api/relationship`, data);
+        },
+        {
+            onSuccess: (data) => {
+                queryClient.invalidateQueries(["user", user.username]);
+            },
+
+            onError: (error) => {
+                toaster.danger(error.response.data.message, {
+                    hasCloseButton: true,
+                    duration: 3,
+                    id: error.message.replace(" ", "-"),
+                });
+            },
+        }
+    );
 
     return (
         <div className="border-b border-b-stone-600 pb-2">
@@ -45,26 +82,42 @@ export const UserHero = ({ user }) => {
                             </button>
                         </Link>
                     ) : (
-                        <button className="bg-white rounded-xl px-4 py-1 text-stone-600">
-                            Follow
-                        </button>
+                        <div onClick={() => mutation.mutate()}>
+                            {user.followers.find(
+                                (follower) => follower.id === currentUser.id
+                            ) ? (
+                                <button className="bg-twitter-secondary rounded-xl px-4 py-1 text-white">
+                                    Following
+                                </button>
+                            ) : (
+                                <button className="bg-white rounded-xl px-4 py-1 text-stone-600">
+                                    Follow
+                                </button>
+                            )}
+                        </div>
                     )}
                 </div>
             </div>
 
             <div className="ml-4 mt-2 flex text-sm text-stone-400 justify-between">
                 <div className="flex gap-5">
-                    <p>
+                    <p onClick={() => variant("posts")}>
                         <span className="font-semibold text-stone-300">
-                            {user.following}
+                            {user.posts.length}
+                        </span>{" "}
+                        {user.posts.length === 1 ? "post" : "posts"}
+                    </p>
+                    <p onClick={() => variant("following")}>
+                        <span className="font-semibold text-stone-300">
+                            {user.following.length}
                         </span>{" "}
                         following
                     </p>
-                    <p>
+                    <p onClick={() => variant("followers")}>
                         <span className="font-semibold text-stone-300">
-                            {user.followers}
+                            {user.followers.length}
                         </span>{" "}
-                        followers
+                        {user.followers.length === 1 ? "follower" : "followers"}
                     </p>
                 </div>
 
