@@ -12,13 +12,13 @@ export const Username = ({ user }) => {
                     <BiFork
                         color="#67e8f9"
                         className="absolute -top-1.5 -right-7 w-7 h-7"
-                        title={`{user.display_name} is an admin.`}
+                        title={`${user.display_name} is an admin.`}
                     />
                     {user.id === 4 ? (
                         <GiFlame
                             color="#FF4F4F"
                             className="absolute -top-3.5 -right-7 w-5 h-5"
-                            title={`{user.display_name} is an admin.`}
+                            title={`${user.display_name} is an admin.`}
                         />
                     ) : (
                         ""
@@ -32,7 +32,7 @@ export const Username = ({ user }) => {
                 <MdVerifiedUser
                     color="#67e8f9"
                     className="absolute -top-0.5 -right-5 w-5 h-5"
-                    title={`{user.display_name} is verified.`}
+                    title={`${user.display_name} is verified.`}
                 />
             ) : (
                 ""
