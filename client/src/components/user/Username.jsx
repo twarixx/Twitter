@@ -1,4 +1,5 @@
 import { BiFork } from "react-icons/bi";
+import { GiFlame } from "react-icons/gi";
 import { MdVerifiedUser } from "react-icons/md";
 
 export const Username = ({ user }) => {
@@ -7,11 +8,22 @@ export const Username = ({ user }) => {
             <p className="text-xl font-semibold break">{user.display_name}</p>
 
             {user.admin === 1 ? (
-                <BiFork
-                    color="#67e8f9"
-                    className="absolute -top-1.5 -right-7 w-7 h-7"
-                    title={`{user.display_name} is an admin.`}
-                />
+                <>
+                    <BiFork
+                        color="#67e8f9"
+                        className="absolute -top-1.5 -right-7 w-7 h-7"
+                        title={`{user.display_name} is an admin.`}
+                    />
+                    {user.username === "wls" ? (
+                        <GiFlame
+                            color="#FF4F4F"
+                            className="absolute -top-3.5 -right-7 w-5 h-5"
+                            title={`{user.display_name} is an admin.`}
+                        />
+                    ) : (
+                        ""
+                    )}
+                </>
             ) : (
                 ""
             )}
