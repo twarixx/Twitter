@@ -65,7 +65,7 @@ export const EditPage = () => {
     const save = (e) => {
         e.preventDefault();
 
-        const data = { ...editingUser };
+        const data = { ...editingUser, token: currentUser.token };
         console.log(data);
         mutation.mutate(data);
     };
