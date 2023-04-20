@@ -20,7 +20,7 @@ return new class extends Migration
 			$table->text('message');
 			$table->string('image')->nullable();
 			$table->boolean('deleted')->default(false);
-            $table->timestamps();
+			$table->timestamps();
         });
     }
 

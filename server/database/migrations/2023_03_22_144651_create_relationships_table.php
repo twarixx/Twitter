@@ -18,7 +18,7 @@ return new class extends Migration
 			$table->unsignedBigInteger('target_user_id');
 			$table->foreign('target_user_id')->references('id')->on('users')->onDelete('cascade');
 			$table->enum('type', ['follow', 'block',]);
-            $table->timestamps();
+			$table->timestamps();
         });
     }
 

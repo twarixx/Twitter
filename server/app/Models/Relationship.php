@@ -13,6 +13,7 @@ class Relationship extends Model {
 
 		'user_id',
 		'follower_id',
+		'target_user_id',
 
 	];
 
