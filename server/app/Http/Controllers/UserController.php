@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 
 class UserController extends Controller {
 
@@ -112,9 +111,41 @@ class UserController extends Controller {
 
 	// omzetten naar users/posts
 
-	public function search(Request $request, $query) {
+	public function search(Request $request, $query, $token) {
 
-		$users = User::select('id', 'username', 'display_name', 'profile_picture', 'banner', 'verified_on')
+		
+
+		if ($token) {
+
+			$current_user = User::where('api_token', decrypt($token))->first();
+
+			if (!$current_user) {
+			
+				return response()->json([
+	
+					'success' => false,
+					'author' => "Admin",
+					'message' => 'Something went wrong.',
+					'data' => null,
+	
+				], 400);
+
+			}
+
+		} else {
+			
+			return response()->json([
+
+				'success' => false,
+				'author' => "Mr. Patch the Penguin",
+				'message' => 'Login maybe?',
+				'data' => null,
+
+			], 400);
+
+		}
+
+		$users = User::select('id', 'username', 'display_name', 'profile_picture', 'banner', 'verified_on', 'admin')
 			->whereNull('deactivated_on')
 			->whereNull('banned_on')
 			->where(function ($q) use ($query) {
@@ -170,20 +201,107 @@ class UserController extends Controller {
 
 
 
-	public function show($query) {
+	public function show($query, $token) {
 
 		$user = User::where('id', $query)
 					->orWhere('email', $query)
 					->orWhere('username', $query)
 					->first();
 
+		if ($token) {
+
+			$current_user = User::where('api_token', decrypt($token))->first();
+
+			if ($current_user) {
+
+
+
+			} else {
+			
+				return response()->json([
+	
+					'success' => false,
+					'author' => "Mr. Patch the Penguin",
+					'message' => 'Login maybe?',
+					'data' => null,
+	
+				], 400);
+
+			}
+
+		} else {
+			
+			return response()->json([
+
+				'success' => false,
+				'author' => "Mr. Patch the Penguin",
+				'message' => 'Login maybe?',
+				'data' => null,
+
+			], 400);
+
+		}
+
 		if ($user) {
+
+			$data = [
+				'id' => $user->id,
+				'username' => $user->username,
+				'display_name' => $user->display_name,
+				'profile_picture' => $user->profile_picture,
+				'banner' => $user->banner,
+				'verified_on' => $user->verified_on,
+				'admin' => $user->admin,
+				'posts' => [],
+			];
+			
+			// Get following user info
+			$following_ids = $user->relationships->pluck('target_user_id');
+			$following = User::select('id', 'username', 'display_name', 'profile_picture', 'banner', 'verified_on', 'admin')
+							  ->whereIn('id', $following_ids)
+							  ->get();
+			$data['following'] = $following;
+			
+			// Get followers user info
+			$followers_ids = $user->followers->pluck('user_id');
+			$followers = User::select('id', 'username', 'display_name', 'profile_picture', 'banner', 'verified_on', 'admin')
+							  ->whereIn('id', $followers_ids)
+							  ->get();
+			$data['followers'] = $followers;
 
 			return response()->json([
 
 				'success' => true,
 				'message' => 'User found.',
-				'data' => $user,
+				'data' => $data,
+				/*'data' => array_merge(
+					$user->toArray(),
+					['following' => $user->relationships],
+					['following_num' => $user->relationships->count()],
+					['followers' => $user->followers],
+					['followers_num' => $user->followers->count()],
+				),*/
+
+				// $users = User::select('id', 'username', 'display_name', 'profile_picture', 'banner', 'verified_on')
+				/*'data' => array_merge(
+					$user->toArray(),
+					[
+						'following' => $user->relationships->map(function($relationship) {
+							$user_info = User::select('id', 'username', 'display_name', 'profile_picture', 'banner', 'verified_on')
+								->where('id', $relationship->id_follows)
+								->first();
+							return array_merge($relationship->toArray(), ['user_info' => $user_info->toArray()]);
+						}),
+						'following_num' => $user->relationships->count(),
+						'followers' => $user->followers->map(function($follower) {
+							$user_info = User::select('id', 'username', 'display_name', 'profile_picture', 'banner', 'verified_on')
+								->where('id', $follower->id_follower)
+								->first();
+							return array_merge($follower->toArray(), ['user_info' => $user_info->toArray()]);
+						}),
+						'followers_num' => $user->followers->count(),
+					]
+				),*/
 
 			], 200);
 

@@ -11,12 +11,36 @@ class RelationshipController extends Controller {
 
 
 
-    public function update(Request $request, $target, $type) {
+    public function update(Request $request) {
 
-		$token = $request->cookie('token');
-		
-		if (!$token) {
+		$target = $request->input('target');
+		$type = $request->input('type');
+		$token = $request->input('token');
+		$current_user = null;
 
+		if ($token) {
+
+			$current_user = User::where('api_token', decrypt($token))->first();
+
+			if ($current_user) {
+
+
+
+			} else {
+			
+				return response()->json([
+	
+					'success' => false,
+					'author' => "Mr. Patch the Penguin",
+					'message' => 'Login maybe?',
+					'data' => null,
+	
+				], 400);
+
+			}
+
+		} else {
+			
 			return response()->json([
 
 				'success' => false,
@@ -27,8 +51,7 @@ class RelationshipController extends Controller {
 			], 400);
 
 		}
-
-		$current_user = User::where('api_token', decrypt($token))->first();
+		
 		$target_user = User::findOrFail($target);
 
 		$relationship = Relationship::firstOrCreate([
